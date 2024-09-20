@@ -7,10 +7,15 @@ import tequebles from '../../img/tequebles.jpeg';
 export const Navbar = () => {
   const { actions } = useContext(Context);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false); // Estado para controlar el menú móvil
   const location = useLocation(); // Obtener la ruta actual
 
   const toggleProfileMenu = () => {
     setShowProfileMenu(!showProfileMenu);
+  };
+
+  const toggleMobileMenu = () => {
+    setShowMobileMenu(!showMobileMenu); // Alternar menú móvil
   };
 
   return (
@@ -22,7 +27,8 @@ export const Navbar = () => {
               type="button"
               className="relative inline-flex items-center justify-center rounded-md p-2 text-yellow-400 hover:bg-yellow-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
               aria-controls="mobile-menu"
-              aria-expanded="false"
+              aria-expanded={showMobileMenu}
+              onClick={toggleMobileMenu} // Llama a la función para alternar el menú móvil
             >
               <span className="absolute -inset-0.5"></span>
               <span className="sr-only">Abrir menú</span>
@@ -88,35 +94,37 @@ export const Navbar = () => {
         </div>
       </div>
 
-      <div className="sm:hidden" id="mobile-menu">
-        <div className="space-y-1 px-2 pb-3 pt-2">
-          <Link
-            to="/tequenoCostCalculator"
-            className={`${location.pathname === '/tequenoCostCalculator' ? 'bg-yellow-900 text-white' : 'text-yellow-300 hover:bg-yellow-700 hover:text-white'} rounded-md px-3 py-2 text-sm font-medium`}
-          >
-            Costo por Tequeños
-          </Link>
-          <Link
-            to="/salsa"
-            className={`${location.pathname === '/salsa' ? 'bg-yellow-900 text-white' : 'text-yellow-300 hover:bg-yellow-700 hover:text-white'} rounded-md px-3 py-2 text-sm font-medium`}
-          >
-            Salsa
-          </Link>
-          <Link
-            to="/pastel"
-            className={`${location.pathname === '/pastel' ? 'bg-yellow-900 text-white' : 'text-yellow-300 hover:bg-yellow-700 hover:text-white'} rounded-md px-3 py-2 text-sm font-medium`}
-          >
-            Tortas
-          </Link>
-          <Link
-            to="/calculateprofit"
-            className={`${location.pathname === '/calculateprofit' ? 'bg-yellow-900 text-white' : 'text-yellow-300 hover:bg-yellow-700 hover:text-white'} rounded-md px-3 py-2 text-sm font-medium`}
-          >
-            Calcular Ganancia
-          </Link>
+      {/* Menú móvil */}
+      {showMobileMenu && (
+        <div className="sm:hidden" id="mobile-menu">
+          <div className="space-y-1 px-2 pb-3 pt-2 bg-yellow-800">
+            <Link
+              to="/tequenoCostCalculator"
+              className={`${location.pathname === '/tequenoCostCalculator' ? 'bg-yellow-900 text-white' : 'text-yellow-300 hover:bg-yellow-700 hover:text-white'} block rounded-md px-3 py-2 text-sm font-medium`}
+            >
+              Costo por Tequeños
+            </Link>
+            <Link
+              to="/salsa"
+              className={`${location.pathname === '/salsa' ? 'bg-yellow-900 text-white' : 'text-yellow-300 hover:bg-yellow-700 hover:text-white'} block rounded-md px-3 py-2 text-sm font-medium`}
+            >
+              Salsa
+            </Link>
+            <Link
+              to="/pastel"
+              className={`${location.pathname === '/pastel' ? 'bg-yellow-900 text-white' : 'text-yellow-300 hover:bg-yellow-700 hover:text-white'} block rounded-md px-3 py-2 text-sm font-medium`}
+            >
+              Tortas
+            </Link>
+            <Link
+              to="/calculateprofit"
+              className={`${location.pathname === '/calculateprofit' ? 'bg-yellow-900 text-white' : 'text-yellow-300 hover:bg-yellow-700 hover:text-white'} block rounded-md px-3 py-2 text-sm font-medium`}
+            >
+              Calcular Ganancia
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 };
-

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { create, all } from 'mathjs';
 
 const math = create(all);
@@ -13,6 +13,7 @@ const TequeñosCalculator = () => {
   const [numLabels, setNumLabels] = useState(''); // Cantidad de etiquetas
   const [totalTequeñosCost, setTotalTequeñosCost] = useState(0); // Costo total de los tequeños
   const [costPerTray, setCostPerTray] = useState(0); // Costo por bandeja
+  const [costPerTequeño, setCostPerTequeño] = useState(0); // Costo por tequeño
   const [errorMessage, setErrorMessage] = useState(''); // Mensaje de error
 
   const calculateTequeñosCost = () => {
@@ -34,6 +35,12 @@ const TequeñosCalculator = () => {
 
     setTotalTequeñosCost(totalCost);
     setCostPerTray(totalCostPerTray);
+
+    // Actualizar costo por tequeño
+    if (totalTequeños > 0) {
+      const costPerTequeño = math.divide(totalCost + totalTrayCost + totalLabelCost, totalTequeños);
+      setCostPerTequeño(costPerTequeño);
+    }
   };
 
   const addIngredient = () => {
@@ -60,6 +67,13 @@ const TequeñosCalculator = () => {
       setErrorMessage('Solo se permiten números.');
     }
   };
+
+  useEffect(() => {
+    // Recalcula el costo por tequeño cuando cambia el número de tequeños
+    if (numTequeños) {
+      calculateTequeñosCost();
+    }
+  }, [numTequeños, tequeñosIngredients, numTrays, trayCost, labelCost, numLabels]);
 
   return (
     <div className="p-4 max-w-xl mx-auto">
@@ -167,7 +181,7 @@ const TequeñosCalculator = () => {
       <input
         className="border p-2 rounded w-full mt-2"
         type="number"
-        placeholder="Cantidad de bandejas"
+        placeholder="Número de bandejas"
         value={numTrays}
         onChange={(e) => setNumTrays(e.target.value)}
       />
@@ -181,7 +195,7 @@ const TequeñosCalculator = () => {
       <input
         className="border p-2 rounded w-full mt-2"
         type="number"
-        placeholder="Cantidad de etiquetas"
+        placeholder="Número de etiquetas"
         value={numLabels}
         onChange={(e) => setNumLabels(e.target.value)}
       />
@@ -199,6 +213,7 @@ const TequeñosCalculator = () => {
 
       <p className="mt-2 text-lg">Costo total de los tequeños: S/ {totalTequeñosCost.toFixed(2)}</p>
       <p className="mt-2 text-lg">Costo por bandeja de tequeños: S/ {costPerTray.toFixed(2)}</p>
+      <p className="mt-2 text-lg">Costo por tequeño: S/ {costPerTequeño.toFixed(2)}</p>
     </div>
   );
 };
