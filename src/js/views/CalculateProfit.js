@@ -1,78 +1,90 @@
 import React, { useState } from 'react';
-import { create, all } from 'mathjs';
-
-const math = create(all);
 
 const ProfitCalculator = () => {
-  const [tequenoTrayCost, setTequenoTrayCost] = useState(''); // Costo de la bandeja de tequeños
-  const [salsaCost, setSalsaCost] = useState(''); // Costo de la salsa
-  const [salePrice, setSalePrice] = useState(''); // Precio de venta
-  const [totalCost, setTotalCost] = useState(0); // Costo total (tequeños + salsa)
-  const [profit, setProfit] = useState(0); // Ganancia en dinero
-  const [profitPercentage, setProfitPercentage] = useState(0); // Porcentaje de ganancia
+  const [products, setProducts] = useState([{ name: '', cost: '', salePrice: '' }]);
+  const [totalCost, setTotalCost] = useState(0);
+  const [totalSale, setTotalSale] = useState(0);
+  const [profit, setProfit] = useState(0);
+  const [profitPercentage, setProfitPercentage] = useState(0);
 
   // Función para calcular la ganancia y el porcentaje
   const calculateProfit = () => {
-    const tequenoCost = parseFloat(tequenoTrayCost) || 0;
-    const salsaCostCalc = parseFloat(salsaCost) || 0;
-    const totalProductCost = tequenoCost + salsaCostCalc; // Suma del costo total
+    const costSum = products.reduce((acc, product) => acc + (parseFloat(product.cost) || 0), 0);
+    const saleSum = products.reduce((acc, product) => acc + (parseFloat(product.salePrice) || 0), 0);
 
-    setTotalCost(totalProductCost);
+    setTotalCost(costSum);
+    setTotalSale(saleSum);
 
-    const sale = parseFloat(salePrice) || 0;
-
-    // Ganancia en términos absolutos
-    const profitCalc = sale - totalProductCost;
+    const profitCalc = saleSum - costSum;
     setProfit(profitCalc);
 
-    // Porcentaje de ganancia
-    const profitPercentageCalc = sale ? (profitCalc / sale) * 100 : 0;
+    const profitPercentageCalc = saleSum ? (profitCalc / saleSum) * 100 : 0;
     setProfitPercentage(profitPercentageCalc);
+  };
+
+  // Función para agregar un nuevo producto
+  const addProduct = () => {
+    setProducts([...products, { name: '', cost: '', salePrice: '' }]);
+  };
+
+  // Función para manejar cambios en los campos de los productos
+  const handleProductChange = (index, field, value) => {
+    const updatedProducts = [...products];
+    updatedProducts[index][field] = value;
+    setProducts(updatedProducts);
+  };
+
+  // Función para eliminar un producto
+  const removeProduct = (index) => {
+    const updatedProducts = products.filter((_, i) => i !== index);
+    setProducts(updatedProducts);
   };
 
   return (
     <div className="p-4 max-w-xl mx-auto">
-      <h1 className="text-xl font-bold mb-4">Calculador de Ganancias por Bandeja de Tequeños + Salsa</h1>
+      <h1 className="text-xl font-bold mb-4">Calculador de Ganancias por Productos</h1>
 
-      {/* Costo de la bandeja de tequeños */}
-      <div className="mb-4">
-        <label className="block text-lg mb-2">Costo de la bandeja de tequeños</label>
-        <input
-          className="border p-2 rounded w-full"
-          type="number"
-          placeholder="Ingresa el costo de la bandeja de tequeños"
-          value={tequenoTrayCost}
-          onChange={(e) => setTequenoTrayCost(e.target.value)}
-        />
-      </div>
-
-      {/* Costo de la salsa */}
-      <div className="mb-4">
-        <label className="block text-lg mb-2">Costo de la salsa</label>
-        <input
-          className="border p-2 rounded w-full"
-          type="number"
-          placeholder="Ingresa el costo de la salsa"
-          value={salsaCost}
-          onChange={(e) => setSalsaCost(e.target.value)}
-        />
-      </div>
-
-      {/* Precio de venta */}
-      <div className="mb-4">
-        <label className="block text-lg mb-2">Precio de venta del conjunto (bandeja + salsa)</label>
-        <input
-          className="border p-2 rounded w-full"
-          type="number"
-          placeholder="Ingresa el precio de venta"
-          value={salePrice}
-          onChange={(e) => setSalePrice(e.target.value)}
-        />
-      </div>
-
-      {/* Botón para calcular la ganancia */}
+      <h2 className="text-lg font-semibold mb-2">Productos</h2>
+      {products.map((product, index) => (
+        <div key={index} className="flex space-x-2 mb-2">
+          <input
+            className="border p-2 rounded w-1/3"
+            type="text"
+            placeholder="Nombre del producto"
+            value={product.name}
+            onChange={(e) => handleProductChange(index, 'name', e.target.value)}
+          />
+          <input
+            className="border p-2 rounded w-1/3"
+            type="number"
+            placeholder="Costo"
+            value={product.cost}
+            onChange={(e) => handleProductChange(index, 'cost', e.target.value)}
+          />
+          <input
+            className="border p-2 rounded w-1/3"
+            type="number"
+            placeholder="Precio de venta"
+            value={product.salePrice}
+            onChange={(e) => handleProductChange(index, 'salePrice', e.target.value)}
+          />
+          <button
+            className="bg-red-500 text-white p-2 rounded"
+            onClick={() => removeProduct(index)}
+          >
+            Eliminar
+          </button>
+        </div>
+      ))}
       <button
-        className="bg-black text-white p-2 rounded mt-2"
+        className="bg-yellow-500 text-white p-2 rounded mt-2 m-2"
+        onClick={addProduct}
+      >
+        Agregar Producto
+      </button>
+
+      <button
+        className="bg-black text-white p-2 rounded mt-4"
         onClick={calculateProfit}
       >
         Calcular Ganancia
@@ -80,8 +92,9 @@ const ProfitCalculator = () => {
 
       {/* Resultados */}
       <div className="mt-4">
-        <p className="text-lg">Costo total del conjunto (tequeños + salsa): {totalCost.toFixed(2)}</p>
-        <p className="text-lg">Ganancia: {profit.toFixed(2)}</p>
+        <p className="text-lg">Costo total de los productos: S/ {totalCost.toFixed(2)}</p>
+        <p className="text-lg">Ingreso total por ventas: S/ {totalSale.toFixed(2)}</p>
+        <p className="text-lg">Ganancia total: S/ {profit.toFixed(2)}</p>
         <p className="text-lg">Porcentaje de ganancia: {profitPercentage.toFixed(2)}%</p>
       </div>
     </div>
@@ -89,3 +102,4 @@ const ProfitCalculator = () => {
 };
 
 export default ProfitCalculator;
+
