@@ -72,7 +72,7 @@ const ProfitCalculator = () => {
 
       {/* Botón para calcular la ganancia */}
       <button
-        className="bg-green-500 text-white p-2 rounded"
+        className="bg-black text-white p-2 rounded mt-2"
         onClick={calculateProfit}
       >
         Calcular Ganancia

@@ -14,6 +14,7 @@ import { Footer } from "./component/footer";
 import TequenoCostCalculator, { TequnoCostCalculator } from "./views/TequenoCostCalculator";
 import CalculateProfit from "./views/CalculateProfit";
 import CostCalculator from "./views/CostCalculator";
+import PastelCostCalculator from "./views/PastelCoastCalculator";
 
 //create your first component
 const Layout = () => {
@@ -27,7 +28,7 @@ const Layout = () => {
 				<ScrollToTop>
 					<Navbar />
 					<Routes>
-
+						<Route path="/pastel" element={<PastelCostCalculator />} />
 					    <Route path="/calculateprofit" element={<CalculateProfit />} />
 						<Route path="/tequenoCostCalculator" element={<TequenoCostCalculator />} />
 						<Route path="/salsa" element={<CostCalculator/>} />

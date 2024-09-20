@@ -70,7 +70,7 @@ const CostCalculator = () => {
           </div>
         ))}
         <button
-          className="bg-blue-500 text-white p-2 rounded"
+          className="bg-yellow-500 text-white p-2 rounded"
           onClick={addIngredient}
         >
           Agregar Ingrediente
@@ -106,7 +106,7 @@ const CostCalculator = () => {
 
           {/* Botón para calcular el costo */}
           <button
-            className="bg-green-500 text-white p-2 rounded mt-2"
+            className="bg-black text-white p-2 rounded mt-2"
             onClick={calculateSalsaCost}
           >
             Calcular Costo Total por Pote
