@@ -30,9 +30,9 @@ const Layout = () => {
 					<Routes>
 						<Route path="/pastel" element={<PastelCostCalculator />} />
 					    <Route path="/calculateprofit" element={<CalculateProfit />} />
-						<Route path="/tequenoCostCalculator" element={<TequenoCostCalculator />} />
+						<Route path="/" element={<TequenoCostCalculator />} />
 						<Route path="/salsa" element={<CostCalculator/>} />
-						<Route path="/" element={<Home />} />
+						<Route path="/home" element={<Home />} />
 						<Route path="/demo" element={<Demo />} />
 						<Route path="/single/:theid" element={<Single />} />
 						<Route path="*" element={<h1>Not found!</h1>} />

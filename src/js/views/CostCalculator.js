@@ -5,11 +5,11 @@ const math = create(all);
 
 const CostCalculator = () => {
   const [salsaIngredients, setSalsaIngredients] = useState([{ name: '', cost: '', quantity: '', usedQuantity: '', unit: 'ml' }]);
-  const [numContainers, setNumContainers] = useState(''); // Cantidad de potes
-  const [containerCost, setContainerCost] = useState(''); // Costo por pote
-  const [totalSalsaCost, setTotalSalsaCost] = useState(0); // Costo total de salsa
-  const [costPerContainer, setCostPerContainer] = useState(0); // Costo por pote de salsa
-  const [errorMessage, setErrorMessage] = useState(''); // Mensaje de error
+  const [numContainers, setNumContainers] = useState('');
+  const [containerCost, setContainerCost] = useState('');
+  const [totalSalsaCost, setTotalSalsaCost] = useState(0);
+  const [costPerContainer, setCostPerContainer] = useState(0);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const calculateSalsaCost = () => {
     const totalCost = salsaIngredients.reduce((acc, ingredient) => {
@@ -21,8 +21,8 @@ const CostCalculator = () => {
 
     setTotalSalsaCost(totalCost);
 
-    const containers = parseFloat(numContainers) || 1; // Cantidad de potes
-    const totalContainerCost = (parseFloat(containerCost) || 0) * containers; // Costo total de los potes
+    const containers = parseFloat(numContainers) || 1;
+    const totalContainerCost = (parseFloat(containerCost) || 0) * containers;
     const totalCostPerContainer = math.divide(totalCost + totalContainerCost, containers);
     setCostPerContainer(totalCostPerContainer);
   };
@@ -111,35 +111,36 @@ const CostCalculator = () => {
         Agregar Ingrediente
       </button>
 
-      {/* Tabla de ingredientes */}
       <h2 className="text-lg font-semibold mt-4">Resumen de Ingredientes</h2>
-      <table className="min-w-full border-collapse border border-gray-200 mt-2">
-        <thead>
-          <tr>
-            <th className="border border-gray-300 p-2">Ingrediente</th>
-            <th className="border border-gray-300 p-2">Costo</th>
-            <th className="border border-gray-300 p-2">Cantidad Total</th>
-            <th className="border border-gray-300 p-2">Unidad</th>
-            <th className="border border-gray-300 p-2">Cantidad Usada</th>
-            <th className="border border-gray-300 p-2">Costo Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {salsaIngredients.map((ingredient, index) => {
-            const totalIngredientCost = (parseFloat(ingredient.cost) || 0) / (parseFloat(ingredient.quantity) || 1) * (parseFloat(ingredient.usedQuantity) || 0);
-            return (
-              <tr key={index}>
-                <td className="border border-gray-300 p-2">{ingredient.name}</td>
-                <td className="border border-gray-300 p-2">{ingredient.cost}</td>
-                <td className="border border-gray-300 p-2">{ingredient.quantity}</td>
-                <td className="border border-gray-300 p-2">{ingredient.unit}</td>
-                <td className="border border-gray-300 p-2">{ingredient.usedQuantity}</td>
-                <td className="border border-gray-300 p-2">{totalIngredientCost.toFixed(2)}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="overflow-x-auto">
+        <table className="min-w-full border-collapse border border-gray-200 mt-2">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 p-2">Ingrediente</th>
+              <th className="border border-gray-300 p-2">Costo</th>
+              <th className="border border-gray-300 p-2">Cantidad Total</th>
+              <th className="border border-gray-300 p-2">Unidad</th>
+              <th className="border border-gray-300 p-2">Cantidad Usada</th>
+              <th className="border border-gray-300 p-2">Costo Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {salsaIngredients.map((ingredient, index) => {
+              const totalIngredientCost = (parseFloat(ingredient.cost) || 0) / (parseFloat(ingredient.quantity) || 1) * (parseFloat(ingredient.usedQuantity) || 0);
+              return (
+                <tr key={index}>
+                  <td className="border border-gray-300 p-2">{ingredient.name}</td>
+                  <td className="border border-gray-300 p-2">{ingredient.cost}</td>
+                  <td className="border border-gray-300 p-2">{ingredient.quantity}</td>
+                  <td className="border border-gray-300 p-2">{ingredient.unit}</td>
+                  <td className="border border-gray-300 p-2">{ingredient.usedQuantity}</td>
+                  <td className="border border-gray-300 p-2">{totalIngredientCost.toFixed(2)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
       <div className="mt-4">
         <input

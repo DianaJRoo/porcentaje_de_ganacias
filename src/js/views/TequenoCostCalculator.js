@@ -133,6 +133,7 @@ const TequeñosCalculator = () => {
       </button>
 
       {/* Tabla de resumen de ingredientes */}
+      <div className="overflow-x-auto">
       <h2 className="text-lg font-semibold mt-4">Resumen de Ingredientes</h2>
       <table className="min-w-full border-collapse border border-gray-200 mt-2">
         <thead>
@@ -161,7 +162,7 @@ const TequeñosCalculator = () => {
           })}
         </tbody>
       </table>
-
+        </div>
       {/* Datos adicionales */}
       <h2 className="text-lg font-semibold mt-4">Datos Adicionales</h2>
       <input

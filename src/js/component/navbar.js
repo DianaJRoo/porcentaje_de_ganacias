@@ -46,7 +46,7 @@ export const Navbar = () => {
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 <Link
-                  to="/tequenoCostCalculator"
+                  to="/"
                   className={`${location.pathname === '/tequenoCostCalculator' ? 'bg-yellow-900 text-white' : 'text-yellow-300 hover:bg-yellow-700 hover:text-white'} rounded-md px-3 py-2 text-sm font-medium`}
                 >
                   Costo por Tequeños
@@ -99,7 +99,7 @@ export const Navbar = () => {
         <div className="sm:hidden" id="mobile-menu">
           <div className="space-y-1 px-2 pb-3 pt-2 bg-yellow-800">
             <Link
-              to="/tequenoCostCalculator"
+              to="/"
               className={`${location.pathname === '/tequenoCostCalculator' ? 'bg-yellow-900 text-white' : 'text-yellow-300 hover:bg-yellow-700 hover:text-white'} block rounded-md px-3 py-2 text-sm font-medium`}
             >
               Costo por Tequeños

@@ -69,7 +69,7 @@ const ProfitCalculator = () => {
             onChange={(e) => handleProductChange(index, 'salePrice', e.target.value)}
           />
           <button
-            className="bg-red-500 text-white p-2 rounded"
+            className="bg-red-500 text-white p-2  rounded"
             onClick={() => removeProduct(index)}
           >
             Eliminar
@@ -90,8 +90,42 @@ const ProfitCalculator = () => {
         Calcular Ganancia
       </button>
 
-      {/* Resultados */}
-      <div className="mt-4">
+      {/* Tabla de resumen de productos */}
+      <h2 className="text-lg font-semibold mt-4">Resumen de Productos</h2>
+      <div className="overflow-x-auto">
+        <table className="min-w-full border-collapse border border-gray-200 mt-2">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 p-2">Producto</th>
+              <th className="border border-gray-300 p-2">Costo</th>
+              <th className="border border-gray-300 p-2">Precio de Venta</th>
+              <th className="border border-gray-300 p-2">Ganancia</th>
+              <th className="border border-gray-300 p-2">% Ganancia</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product, index) => {
+              const cost = parseFloat(product.cost) || 0;
+              const salePrice = parseFloat(product.salePrice) || 0;
+              const profitCalc = salePrice - cost;
+              const profitPercentageCalc = salePrice ? (profitCalc / salePrice) * 100 : 0;
+              return (
+                <tr key={index}>
+                  <td className="border border-gray-300 p-2">{product.name}</td>
+                  <td className="border border-gray-300 p-2">{cost.toFixed(2)}</td>
+                  <td className="border border-gray-300 p-2">{salePrice.toFixed(2)}</td>
+                  <td className="border border-gray-300 p-2">{profitCalc.toFixed(2)}</td>
+                  <td className="border border-gray-300 p-2">{profitPercentageCalc.toFixed(2)}%</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Dashboard de resultados */}
+      <div className="mt-4 bg-gray-100 p-4 rounded">
+        <h2 className="text-lg font-semibold">Dashboard de Resultados</h2>
         <p className="text-lg">Costo total de los productos: S/ {totalCost.toFixed(2)}</p>
         <p className="text-lg">Ingreso total por ventas: S/ {totalSale.toFixed(2)}</p>
         <p className="text-lg">Ganancia total: S/ {profit.toFixed(2)}</p>
@@ -102,4 +136,5 @@ const ProfitCalculator = () => {
 };
 
 export default ProfitCalculator;
+
 

@@ -119,6 +119,7 @@ const PastelCostCalculator = () => {
       </button>
 
       {/* Tabla de ingredientes */}
+      <div className="overflow-x-auto">
       <h2 className="text-lg font-semibold mt-4">Resumen de Ingredientes</h2>
       <table className="min-w-full border-collapse border border-gray-200 mt-2">
         <thead>
@@ -147,7 +148,7 @@ const PastelCostCalculator = () => {
           })}
         </tbody>
       </table>
-
+     </div>
       <div className="mt-4">
         <input
           className="border p-2 rounded w-full"
